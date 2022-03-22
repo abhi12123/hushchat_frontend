@@ -1,25 +1,24 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import io from "socket.io-client";
 import { addMessage } from "../redux/messagesSlice";
 
 export default function SendMessage() {
   const [message, setMessage] = useState(undefined);
   const socket = useSelector(state=>state.socket.value);
-  console.log(socket)
   const roomData = useSelector(state=>state.roomData.value);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  console.log(roomData)
+
   const handleSendMessage = (e) => {
     e.preventDefault();
     if (!message) return;
-    socket.emit("send_message", { text: message, roomName:roomData['name'] });
+    let messageData = { text: message, roomName:roomData['name'], sender:roomData['username']}
+    socket.emit("send_message", messageData);
+    dispatch(addMessage(messageData));
   };
 
   useEffect(() => {
-      console.log(socket,roomData)
     if(!socket){
         navigate('/');
         return
@@ -32,15 +31,17 @@ export default function SendMessage() {
   }, []);
 
   return (
-    <form className="w3-display-bottommiddle w3-col w3-padding">
+    <form className="w3-display-bottommiddle w3-col w3-padding w3-margin">
       <input
         className="w3-col s8 l8 m8 w3-input"
         placeholder="Enter text"
         onChange={(e) => setMessage(e.target.value)}
       ></input>
-      <button className="w3-col s4 l4 m4 w3-button" onClick={(e) => handleSendMessage(e)}>
-        Send Message
+      <div  className="w3-col s4 l4 m4">
+      <button className="w3-button w3-border w3-margin-left w3-round" onClick={(e) => handleSendMessage(e)}>
+        Send
       </button>
+        </div>
     </form>
   );
 }
