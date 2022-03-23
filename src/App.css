@@ -1,0 +1,22 @@
+.join-room form{
+    max-width: 500px;
+    margin: 30px auto;
+    box-shadow: cyan 5px 5px 0px;
+}
+
+.join-room iframe{
+    display: block;
+    margin: auto;
+    width: 300px;
+    height: 200px;
+}
+
+.join-room input{
+    background: none;
+    outline: none;
+}
+
+.directions{
+    display: flex;
+    justify-content: space-between;
+}

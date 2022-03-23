@@ -14,7 +14,7 @@ export default function JoinRoom() {
   const [error, setError] = useState(undefined);
   const [step, setStep] = useState(1);
   const socket = useSelector((state) => state.socket.value);
-  const baseURL = window.location.href.split(':').splice(0,2).join(':');
+  const baseURL = window.location.href.split(":").splice(0, 2).join(":");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -31,27 +31,25 @@ export default function JoinRoom() {
 
   const handleJoin = async (e) => {
     e.preventDefault();
-    if(!joinRoomName){
-      setError('Enter room name to join');
-      return
+    if (!joinRoomName) {
+      setError("Enter room name to join");
+      return;
     }
     setError(undefined);
-    const roomExists = await axios.get(
-      `${baseURL}:3500/rooms/${joinRoomName}`
-    );
+    const roomExists = await axios.get(`${baseURL}:3500/rooms/${joinRoomName}`);
     if (roomExists?.data?.success) {
       setEnteredRoomName(joinRoomName);
       setStep(2);
-      return
+      return;
     }
     setError(roomExists?.data?.message);
   };
 
   const handleCreate = async (e) => {
     e.preventDefault();
-    if(!createRoomName){
-      setError('Enter room name to create');
-      return
+    if (!createRoomName) {
+      setError("Enter room name to create");
+      return;
     }
     setError(undefined);
     const roomExists = await axios.get(
@@ -59,7 +57,7 @@ export default function JoinRoom() {
     );
     if (roomExists?.data?.success) {
       setError(roomExists?.data?.message);
-      return
+      return;
     }
     setEnteredRoomName(createRoomName);
     setStep(2);
@@ -81,76 +79,93 @@ export default function JoinRoom() {
   }, []);
 
   return (
-    <div>
-      <h1 className="w3-center">Hush Chat</h1>
+    <div className="w3-margin join-room">
+      <h1 className="w3-center w3-monospace w3-xxxlarge">Hush Chat</h1>
+      <p className="w3-monospace w3-margin-left w3-margin-right w3-center">
+        A web chat application that runs using websockets.
+      </p>
+      <iframe
+        src="https://embed.lottiefiles.com/animation/41377"
+        frameBorder="0"
+      ></iframe>
       {error && (
         <div
           className="w3-panel w3-red w3-padding"
           style={{ position: "relative" }}
         >
           {error}
-          <div className="w3-small w3-display-topright w3-padding-small w3-circle w3-btn" onClick={()=>setError(undefined)}>
+          <div
+            className="w3-small w3-display-topright w3-padding-small w3-circle w3-btn"
+            onClick={() => setError(undefined)}
+          >
             x
           </div>
         </div>
       )}
       {step == 1 && (
-        <form className="w3-light-grey w3-padding w3-margin">
+        <form className="w3-black w3-opacity-min w3-padding w3-center">
           <div className="w3-padding w3-margin">
-            <label>Join a Room</label>
-            <input
-              className="w3-input"
-              onChange={(e) => setJoinRoomName(e.target.value)}
-              type='text'
-            ></input>
+            <div>
+              <input
+                className="w3-input w3-text-aqua"
+                onChange={(e) => setCreateRoomName(e.target.value)}
+                type="text"
+                placeholder="Create a Room"
+              ></input>
+              <br />
+              <button
+                className="w3-border w3-border-aqua w3-btn w3-hover-aqua w3-round"
+                onClick={(e) => handleCreate(e)}
+              >
+                Create
+              </button>
+            </div>
             <br />
-            <button
-              className="w3-white w3-button"
-              onClick={(e) => handleJoin(e)}
-            >
-              Join
-            </button>
-            <p>or</p>
-            <label>Create a Room</label>
-            <input
-              className="w3-input"
-              onChange={(e) => setCreateRoomName(e.target.value)}
-            ></input>
             <br />
-            <button
-              className="w3-white w3-button"
-              onClick={(e) => handleCreate(e)}
-            >
-              Create
-            </button>
+            <br />
+            <div>
+              <input
+                className="w3-input w3-text-aqua"
+                onChange={(e) => setJoinRoomName(e.target.value)}
+                placeholder="Join a Room"
+                type="text"
+              ></input>
+              <br />
+              <button
+                className="w3-border w3-border-aqua w3-btn w3-hover-aqua w3-round"
+                onClick={(e) => handleJoin(e)}
+              >
+                Join
+              </button>
+            </div>
           </div>
         </form>
       )}
 
       {step == 2 && (
-        <form className="w3-light-grey w3-padding w3-margin">
+        <form className="w3-black w3-opacity-min w3-padding w3-center">
           <div className="w3-padding w3-margin">
             <label>Enter a unique name</label>
             <input
-              className="w3-input"
+                className="w3-input w3-text-aqua"
               onChange={(e) => setUniqueName(e.target.value)}
             ></input>
           </div>
+          <div className="w3-padding w3-margin directions">
+            <button
+              className="w3-border w3-border-aqua w3-btn w3-hover-aqua w3-round"
+              onClick={() => setStep(step - 1)}
+            >
+              Prev
+            </button>
+            <button
+              className="w3-border w3-border-aqua w3-btn w3-hover-aqua w3-round"
+              onClick={() => handleConnectSocket()}
+            >
+              Start Chatting
+            </button>
+          </div>
         </form>
-      )}
-
-      {step == 2 && (
-        <div className="w3-padding w3-margin">
-          <button className="w3-button w3-border w3-round" onClick={() => setStep(step - 1)}>
-            Prev
-          </button>
-          <button
-            className="w3-right w3-button w3-border w3-round"
-            onClick={() => handleConnectSocket()}
-          >
-            start Chatting
-          </button>
-        </div>
       )}
     </div>
   );

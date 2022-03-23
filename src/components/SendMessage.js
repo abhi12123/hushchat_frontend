@@ -31,7 +31,7 @@ export default function SendMessage() {
   }, []);
 
   return (
-    <form className="w3-display-bottommiddle w3-col w3-padding w3-margin">
+    <form className="w3-display-bottommiddle w3-col w3-padding w3-margin" style={{maxWidth:'800px'}}>
       <input
         className="w3-col s8 l8 m8 w3-input"
         placeholder="Enter text"
