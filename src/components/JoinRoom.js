@@ -143,7 +143,7 @@ export default function JoinRoom() {
       )}
 
       {step == 2 && (
-        <form className="w3-black w3-opacity-min w3-padding w3-center">
+        <form className="w3-black w3-opacity-min w3-padding w3-center" onClick={(e)=>e.preventDefault()}>
           <div className="w3-padding w3-margin">
             <label>Enter a unique name</label>
             <input

@@ -6,7 +6,7 @@ export default function RoomDetails() {
   console.log(roomData)
   return (
     <div>
-        <p className='w3-large w3-cursive w3-center'>Room Name : {roomData?.name}</p>
+        <p className='w3-large w3-monospace w3-center'>Room Name : <b>{roomData?.name}</b></p>
     </div>
   )
 }

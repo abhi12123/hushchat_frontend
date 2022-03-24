@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 import { addMessage } from "../redux/messagesSlice";
 
 export default function SendMessage() {
-  const [message, setMessage] = useState(undefined);
+  const [message, setMessage] = useState('');
   const socket = useSelector(state=>state.socket.value);
   const roomData = useSelector(state=>state.roomData.value);
   const dispatch = useDispatch();
@@ -16,6 +16,7 @@ export default function SendMessage() {
     let messageData = { text: message, roomName:roomData['name'], sender:roomData['username']}
     socket.emit("send_message", messageData);
     dispatch(addMessage(messageData));
+    setMessage('')
   };
 
   useEffect(() => {
@@ -31,17 +32,16 @@ export default function SendMessage() {
   }, []);
 
   return (
-    <form className="w3-display-bottommiddle w3-col w3-padding w3-margin" style={{maxWidth:'800px'}}>
+    <form className="w3-display-bottommiddle w3-col w3-padding w3-margin-bottom send-message" style={{maxWidth:'800px'}}>
       <input
         className="w3-col s8 l8 m8 w3-input"
         placeholder="Enter text"
         onChange={(e) => setMessage(e.target.value)}
+        value={message}
       ></input>
-      <div  className="w3-col s4 l4 m4">
-      <button className="w3-button w3-border w3-margin-left w3-round" onClick={(e) => handleSendMessage(e)}>
+      <button  className="l4 m4 message s4 w3-black w3-button w3-col w3-hover-black w3-opacity-min w3-round-large" onClick={(e) => handleSendMessage(e)}>
         Send
       </button>
-        </div>
     </form>
   );
 }

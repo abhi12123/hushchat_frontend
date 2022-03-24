@@ -11,7 +11,7 @@
     height: 200px;
 }
 
-.join-room input{
+.join-room input, .send-message input{
     background: none;
     outline: none;
 }
@@ -19,4 +19,21 @@
 .directions{
     display: flex;
     justify-content: space-between;
+}
+
+.message{
+    box-shadow: cyan 4px 2px 0px;
+}
+
+.message-sender{
+    border-bottom-right-radius: 0;
+}
+
+.message-reciever{
+    border-bottom-left-radius: 0;
+}
+
+.send-message{
+    display: flex;
+    gap:40px;
 }
