@@ -20,7 +20,7 @@ export default function JoinRoom() {
   const navigate = useNavigate();
 
   const handleConnectSocket = async () => {
-    const newSocket = io.connect(`${baseURL}:3500`);
+    const newSocket = io.connect(`https://hush--chat.herokuapp.com`);
     await dispatch(setSocket(newSocket));
     const roomData = {
       name: enteredRoomName,
