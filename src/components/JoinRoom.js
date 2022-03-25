@@ -36,7 +36,7 @@ export default function JoinRoom() {
       return;
     }
     setError(undefined);
-    const roomExists = await axios.get(`${baseURL}:3500/rooms/${joinRoomName}`);
+    const roomExists = await axios.get(`https://hush--chat.herokuapp.com/rooms/${joinRoomName}`);
     if (roomExists?.data?.success) {
       setEnteredRoomName(joinRoomName);
       setStep(2);
@@ -53,7 +53,7 @@ export default function JoinRoom() {
     }
     setError(undefined);
     const roomExists = await axios.get(
-      `${baseURL}:3500/rooms/${createRoomName}`
+      `https://hush--chat.herokuapp.com/rooms/${createRoomName}`
     );
     if (roomExists?.data?.success) {
       setError(roomExists?.data?.message);
